@@ -1,0 +1,33 @@
+.hero-section {
+  display: flex;
+  justify-content: center;
+  padding: 6% 5%;
+  .hero-header {
+    padding: 3% 0 0 4%;
+    width: 50%;
+    p {
+      padding: 0;
+      margin: 3% 0;
+    }
+    .title {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+    .intro {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+    .message {
+      color: rgb(112, 110, 108);
+      font-size: 1rem;
+      max-width: 85%;
+      line-height: 1.5;
+    }
+  }
+  .hero-image {
+    width: 40%;
+    img {
+      width: 100%;
+    }
+  }
+}

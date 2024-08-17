@@ -1,0 +1,36 @@
+.signup {
+  display: flex;
+  justify-content: center;
+  padding: 1% 5%;
+  img {
+    width: 35%;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+
+  .signup-form {
+    width: 55%;
+    background-color: #e2dad6;
+    padding: 5% 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    text-align: center;
+
+    p {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    .form-elements {
+      margin-bottom: 5%;
+      background-color: #f5eded;
+    }
+    .message {
+      color: rgb(112, 110, 108);
+      font-size: 1rem;
+      max-width: 100%;
+      text-align: center;
+      padding: 0%;
+      width: 100%;
+    }
+  }
+}

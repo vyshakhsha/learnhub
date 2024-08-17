@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import "./Assets/Styles/App.scss";
+import Landing from "./Pages/Landing";
+import theme from "./Components/Theme";
+import { ThemeProvider } from "@mui/material/styles";
+import SignUp from "./Pages/SignUp";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <SignUp />
+      </div>
+    </ThemeProvider>
   );
 }
-
 export default App;
