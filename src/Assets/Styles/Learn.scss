@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+// Define breakpoints
+$breakpoint-xsmall: 380px; // Extra Small Mobile
+$breakpoint-small: 576px; // Small Mobile
+$breakpoint-medium: 768px; // Tablets
+$breakpoint-large: 992px; // Laptops
+$breakpoint-xlarge: 1200px; // Desktops
+$breakpoint-xxlarge: 1440px; //big screen
+// Mixin for media queries
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xsmall {
+    @media (max-width: #{$breakpoint-xsmall}) {
+      @content;
+    }
+  } @else if $breakpoint == small {
+    @media (max-width: #{$breakpoint-small}) {
+      @content;
+    }
+  } @else if $breakpoint == medium {
+    @media (max-width: #{$breakpoint-medium}) {
+      @content;
+    }
+  } @else if $breakpoint == large {
+    @media (max-width: #{$breakpoint-large}) {
+      @content;
+    }
+  } @else if $breakpoint == xlarge {
+    @media (max-width: #{$breakpoint-xlarge}) {
+      @content;
+    }
+  } @else if $breakpoint == xxlarge {
+    @media (max-width: #{$breakpoint-xxlarge}) {
+      @content;
+    }
+  }
+}
+
+body {
+  margin: 0;
+}
+
+.course-container {
+  background-color: "#F5EDED";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1% 5%;
+  margin: 2% 4%;
+}
+.course-image {
+    width: 50%;
+  img {
+    width: 100%;
+  }
+}

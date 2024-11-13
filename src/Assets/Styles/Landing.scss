@@ -1,20 +1,66 @@
+// Define breakpoints
+$breakpoint-xsmall: 380px;  // Extra Small Mobile
+$breakpoint-small: 576px;   // Small Mobile
+$breakpoint-medium: 768px;  // Tablets
+$breakpoint-large: 992px;   // Laptops
+$breakpoint-xlarge: 1200px; // Desktops
+$breakpoint-xxlarge: 1440px; //big screen
+// Mixin for media queries
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xsmall {
+    @media (max-width: #{$breakpoint-xsmall}) { @content; }
+  } @else if $breakpoint == small {
+    @media (max-width: #{$breakpoint-small}) { @content; }
+  } @else if $breakpoint == medium {
+    @media (max-width: #{$breakpoint-medium}) { @content; }
+  } @else if $breakpoint == large {
+    @media (max-width: #{$breakpoint-large}) { @content; }
+  } @else if $breakpoint == xlarge {
+    @media (max-width: #{$breakpoint-xlarge}) { @content; }
+  } @else if $breakpoint == xxlarge {
+    @media (max-width: #{$breakpoint-xxlarge}) { @content; }
+  }
+}
+
+// @include respond-to() {
+ 
+// }
+
 .hero-section {
   display: flex;
   justify-content: center;
   padding: 6% 5%;
+  @include respond-to(large) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
   .hero-header {
+    display: flex;
+    flex-direction: column;
     padding: 3% 0 0 4%;
     width: 50%;
+    align-items: center;
+    justify-content: center;
+    @include respond-to(large) {
+      width:100%;
+      padding: 3% ;
+    }
     p {
       padding: 0;
-      margin: 3% 0;
+      margin: 1% 0;
+      @include respond-to(large) {
+        margin: 2% 0;
+      }
     }
     .title {
-      font-size: 3rem;
+      font-size: clamp(1rem, 30vw + 1rem, 3rem);
       font-weight: 700;
     }
     .intro {
-      font-size: 2rem;
+      font-size: clamp(.5rem, 20vw , 2rem);
       font-weight: 500;
     }
     .message {
@@ -26,6 +72,9 @@
   }
   .hero-image {
     width: 40%;
+    @include respond-to(large) {
+      width:80%;
+    }
     img {
       width: 100%;
     }

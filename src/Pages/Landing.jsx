@@ -1,9 +1,10 @@
 import React from "react";
 import "../Assets/Styles/Landing.scss";
 import Button from "@mui/material/Button";
-// import Container from "@mui/material/Container";
+import { useNavigate } from 'react-router-dom';
 
 export default function Landing() {
+  const navigate=useNavigate()
   return (
     <>
       <div className="hero-section">
@@ -14,9 +15,9 @@ export default function Landing() {
             Discover top courses at Learn Hub. Learn, grow, and succeed on your
             path to excellence
           </p>
-          <Button variant="contained">Get Started</Button>
+          <Button variant="contained" onClick={()=>navigate("/SignUp")} >Get Started</Button>
           <p>
-            Have an account ? <Button href="#text-buttons">Login</Button>
+            Have an account ? <Button  onClick={()=>navigate("/Login")} >Login</Button>
           </p>
         </div>
         <div className="hero-image">

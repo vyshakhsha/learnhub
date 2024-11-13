@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
 // Define breakpoints
 $breakpoint-xsmall: 380px; // Extra Small Mobile
 $breakpoint-small: 576px; // Small Mobile
@@ -33,64 +35,72 @@ $breakpoint-xxlarge: 1440px; //big screen
     }
   }
 }
+body {
+  margin: 0;
+}
 
-// @include respond-to() {
-
-// }
-
-.signup {
+.course-container {
+  background-color: "#F5EDED";
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 1% 5%;
-  margin-top: 8px;
-  @include respond-to(large) {
-    flex-direction: column-reverse;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
+  margin: 2% 4%;
+}
+.course-image {
+    width: 50%;
+    @include respond-to(large) {
+      width: 80%;
+    }
   img {
-    width: 35%;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    @include respond-to(large) {
-      display: none;
-      width: 60%;
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 15px;
-      border-bottom-right-radius: 15px;
-    }
+    width: 100%;
   }
+}
+.course-details {
+  width: 60%;
+  text-align: left;
+  padding-left: 5%;
+  @include respond-to(large) {
+    width: 100%;
+  }
+  .desc{
+    font-weight: 300; 
+    font-style: italic;
+    color: #666666;   
+  }
+}
+.myCourseContainer{
+  display: flex;
+  width: 100%;
+  padding-bottom: 2%;
+  align-items: center;
 
-  .signup-form {
-    width: 55%;
-    background-color: #e2dad6;
-    padding: 5% 0;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    text-align: center;
+  .cart-item{
+    padding-bottom: 2%;
     @include respond-to(large) {
-      width: 90%;
-      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2%;
     }
-    p {
-      font-size: clamp(1rem, 20vw + 1rem, 2rem);
-      font-weight: 600;
-      
+    .course-image{
+      width: 25%;
+      @include respond-to(large) {
+        width: 50%;
+      }
     }
-    .form-elements {
-      margin-bottom: 5%;
-      background-color: #f5eded;
-    }
-    .message {
-      color: rgb(112, 110, 108);
-      font-size: 1rem;
-      max-width: 100%;
-      text-align: center;
-      padding: 0%;
-      width: 100%;
+    .course-name{
+      width: 30%;
+      font-size: clamp(15px,10vw,1.5rem);
+      @include respond-to(large) {
+        width: 60%;
+        text-align: center;
+      }
+      @include respond-to(small) {
+       font-size: 1rem;
+      }
     }
   }
+  
 }
