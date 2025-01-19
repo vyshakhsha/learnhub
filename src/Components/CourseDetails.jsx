@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import NavBar from "./NavBar";
@@ -11,28 +9,18 @@ import Button from "@mui/material/Button";
 import { useSelector,useDispatch } from "react-redux";
 import { addToCartItem } from "../Redux/cartSlice";
 import "../Assets/Styles/CourseDetails.scss";
+import { useFetchCourse } from "../Hooks/useFetchCourse";
 
 export default function CourseDetails() {
   const courseId = useSelector((state) => state.course.selectedCourse);
   const userId = useSelector((state) => state.user.userData.userId);
   const apiURL = process.env.REACT_APP_SPECIFIC_COURSE_URL;
-  const [courseData, setCourseData] = useState(null);
+
   const desc =
     "Gain essential knowledge and skills with our engaging course, designed for learners at all levels. Through interactive lessons and real-world applications, you'll be able to apply what you learn right away. Join a supportive community and start reaching your goals with guidance from expert instructors!";
   const rating= Math.floor(Math.random() * 3) + 3;
   const dispatch=useDispatch()
-    useEffect(() => {
-    const fetchCourseDetails = async () => {
-      try {
-        const response = await axios.get(`${apiURL}${courseId}`);
-        setCourseData(response.data);
-      } catch (error) {
-        console.log(`Fetching from URL: ${apiURL}${courseId}`);
-        console.log(error);
-      }
-    };
-    fetchCourseDetails();
-  }, [courseId,apiURL]);
+  const courseData=useFetchCourse(apiURL,courseId)
   if (courseData) {
     return (
       <Box sx={{ width: "100%" }}>

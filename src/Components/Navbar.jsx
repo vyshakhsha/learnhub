@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import CartIcon from "./CartIcon";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import {persistor} from "../Redux/Store"
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -48,6 +49,7 @@ function NavBar() {
       console.log("I have clicked");
       await auth.signOut();
       console.log("User logout susccessfully !");
+      persistor.purge()
       window.location.href = "/Login";
     } catch (error) {
       console.log(error);
