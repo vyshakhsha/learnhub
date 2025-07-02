@@ -11,17 +11,15 @@ import InputLabel from "@mui/material/InputLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../Components/Firebase";
-import { setDoc, doc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function SignUp() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const registerURL = process.env.REACT_APP_REGISTER_USER;
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -35,7 +33,7 @@ export default function SignUp() {
     } else {
       return false;
     }
-  }; 
+  };
   const [buttonState, setButtonState] = useState(false);
   const [formValues, setFormValues] = useState({
     name: "",
@@ -43,7 +41,6 @@ export default function SignUp() {
     password: "",
     userType: "Student",
   });
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,16 +75,13 @@ export default function SignUp() {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, formValues.email, formValues.password);
-      const user = auth.currentUser;
-      console.log(user);
-      if (user) {
-        await setDoc(doc(db, "Users", user.uid), {
-          userName: formValues.name,
-          email: formValues.email,
-          password: formValues.password,
-          userType: formValues.userType,
-        });
+      const response = await axios.post(registerURL, {
+        username: formValues.name,
+        email: formValues.email,
+        usertype: formValues.userType,
+        passwordHash: formValues.password,
+      });
+      if (response.data.message === "Registration successful") {
         toast.success("User registered successfully !", {
           position: "top-center",
         });
@@ -115,95 +109,115 @@ export default function SignUp() {
         <div className="signup-form">
           <p>Create Account</p>
           <form onSubmit={handleSubmit}>
-          <FormControl sx={{ m: 1, width: "23ch" }} variant="outlined">
-            <InputLabel htmlFor="outlined-Text">Name</InputLabel>
-            <OutlinedInput
-              className="form-elements"
-              id="outlined"
-              label="Name"
-              name="name"
-              value={formValues.name}
-              onChange={(e) =>{setFormValues({...formValues,[e.target.name]:e.target.value})}}
-            />
-          </FormControl>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={formValues.userType}
-              onChange={(e) =>{setFormValues({...formValues,[e.target.name]:e.target.value})}}
-            >
-              <FormControlLabel
-                value="Student"
-                control={<Radio />}
-                label="Student"
-                name="userType"
-                
+            <FormControl sx={{ m: 1, width: "23ch" }} variant="outlined">
+              <InputLabel htmlFor="outlined-Text">Name</InputLabel>
+              <OutlinedInput
+                className="form-elements"
+                id="outlined"
+                label="Name"
+                name="name"
+                value={formValues.name}
+                onChange={(e) => {
+                  setFormValues({
+                    ...formValues,
+                    [e.target.name]: e.target.value,
+                  });
+                }}
               />
-              <FormControlLabel
-                value="Teacher"
-                control={<Radio />}
-                label="Teacher"
-                name="userType"
+            </FormControl>
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={formValues.userType}
+                onChange={(e) => {
+                  setFormValues({
+                    ...formValues,
+                    [e.target.name]: e.target.value,
+                  });
+                }}
+              >
+                <FormControlLabel
+                  value="Student"
+                  control={<Radio />}
+                  label="Student"
+                  name="userType"
                 />
-            </RadioGroup>
-          </FormControl>
-          <FormControl sx={{ m: 1, width: "23ch" }} variant="outlined">
-            <InputLabel htmlFor="outlined-Text">E-mail</InputLabel>
-            <OutlinedInput
-              className="form-elements"
-              id="email"
-              label="E-mail"
-              name="email"
-              value={formValues.email}
-              onChange={(e) =>{setFormValues({...formValues,[e.target.name]:e.target.value})}}            
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: "23ch" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              className="form-elements"
-              id="password"
-              name="password"
-              value={formValues.password}
-              type={showPassword ? "text" : "password"}
-              onChange={(e) =>{ setFormValues({...formValues,[e.target.name]:e.target.value})}}                        
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{
-              width: "230px",
-              marginTop: "8px",
-              "&:disabled": {
-                backgroundColor: "primary.main",
-                color: "white",
-              },
-            }}
-            disabled={buttonState}
-          >
-            Sign-Up
-          </Button>
+                <FormControlLabel
+                  value="Teacher"
+                  control={<Radio />}
+                  label="Teacher"
+                  name="userType"
+                />
+              </RadioGroup>
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "23ch" }} variant="outlined">
+              <InputLabel htmlFor="outlined-Text">E-mail</InputLabel>
+              <OutlinedInput
+                className="form-elements"
+                id="email"
+                label="E-mail"
+                name="email"
+                value={formValues.email}
+                onChange={(e) => {
+                  setFormValues({
+                    ...formValues,
+                    [e.target.name]: e.target.value,
+                  });
+                }}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "23ch" }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                className="form-elements"
+                id="password"
+                name="password"
+                value={formValues.password}
+                type={showPassword ? "text" : "password"}
+                onChange={(e) => {
+                  setFormValues({
+                    ...formValues,
+                    [e.target.name]: e.target.value,
+                  });
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                width: "230px",
+                marginTop: "8px",
+                "&:disabled": {
+                  backgroundColor: "primary.main",
+                  color: "white",
+                },
+              }}
+              disabled={buttonState}
+            >
+              Sign-Up
+            </Button>
           </form>
           <p className="message">
-            Already have an account ?<Button onClick={()=>navigate("/Login")}>Login</Button>
+            Already have an account ?
+            <Button onClick={() => navigate("/Login")}>Login</Button>
           </p>
         </div>
       </div>

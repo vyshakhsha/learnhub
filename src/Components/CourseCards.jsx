@@ -32,7 +32,11 @@ function CourseCards(props) {
   useEffect(() => {
     const fetchCourseData = async () => {
       if (props.type === "all-courses") {
-        const response = await axios.get(apiUrlAllCourses);
+        const response = await axios.get(apiUrlAllCourses,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (response.data) {
           setCourseData(response.data);
           setLoading(false);
