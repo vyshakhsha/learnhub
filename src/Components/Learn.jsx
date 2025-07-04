@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 import { Paper } from "@mui/material";
 import { useSelector } from "react-redux";
 import "../Assets/Styles/Learn.scss";

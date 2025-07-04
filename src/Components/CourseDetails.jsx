@@ -2,7 +2,7 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 import Typography from "@mui/material/Typography";
 import Rating from '@mui/material/Rating';
 import Button from "@mui/material/Button";
@@ -20,7 +20,7 @@ export default function CourseDetails() {
     "Gain essential knowledge and skills with our engaging course, designed for learners at all levels. Through interactive lessons and real-world applications, you'll be able to apply what you learn right away. Join a supportive community and start reaching your goals with guidance from expert instructors!";
   const rating= Math.floor(Math.random() * 3) + 3;
   const dispatch=useDispatch()
-  const courseData=useFetchCourse(apiURL,courseId)
+  const courseData=useFetchCourse(apiURL, courseId);
   if (courseData) {
     return (
       <Box sx={{ width: "100%" }}>

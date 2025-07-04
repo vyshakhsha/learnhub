@@ -8,7 +8,6 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import "../Assets/Styles/AddNewCourse.scss";
 
 function AddNewCourse() {
@@ -25,10 +24,9 @@ function AddNewCourse() {
   const author = useSelector((state) => state.user.userData.userName);
   const authorEmail = useSelector((state) => state.user.userData.email);
   const [courseData, setCourseData] = useState({
-    id: "",
     name: "",
     author: author,
-    Email: authorEmail,
+    email: authorEmail,
     image: "",
     price: 0,
     category: "",
@@ -66,7 +64,7 @@ function AddNewCourse() {
       if (imageUrl) {
         const updatedCourseData = {
           ...courseData,
-          id: uuidv4(),
+          // id: uuidv4(),
           image: imageUrl,
         };
         try {
@@ -76,10 +74,9 @@ function AddNewCourse() {
               position: "top-center",
             });
             setCourseData({
-              id: "",
               name: "",
               author: author,
-              Email: authorEmail,
+              email: authorEmail,
               image: "",
               price: "",
               category: "",
@@ -88,7 +85,6 @@ function AddNewCourse() {
             });
           }
         } catch (error) {
-          console.log(courseData);
           toast.error("Error occured while adding course", {
             position: "top-center",
           });
@@ -96,7 +92,6 @@ function AddNewCourse() {
       }
     } catch (error) {
       setButtonState(false);
-      console.log(error);
       toast.error("Error occured while fetchng image ", {
         position: "top-center",
       });

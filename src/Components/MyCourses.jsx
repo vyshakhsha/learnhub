@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 import { Typography, Paper, Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMyCourses, fetchAllCourses } from "../Redux/courseSlice";
+import { fetchBoughtItems } from "../Redux/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { setSelectedCourse } from "../Redux/courseSlice";
 import Button from "@mui/material/Button";
@@ -20,9 +21,11 @@ export default function MyCourses() {
   useEffect(() => {
     dispatch(fetchAllCourses());
     dispatch(fetchMyCourses(userId));
+    dispatch(fetchBoughtItems(userId));
   }, [dispatch, userId]);
   const allCourseData = useSelector((state) => state.course.allCourses);
-  const MyCourseData = useSelector((state) => state.course.MyCourses);
+  //const MyCourseData = useSelector((state) => state.course.MyCourses);
+  const boughtItems = useSelector((state) => state.cart.boughtItems);
   let allCourseDataWithStatus = [];
   if (user.userType === "Teacher") {
     allCourseDataWithStatus = allCourseData.map((allItem) => {
@@ -33,7 +36,7 @@ export default function MyCourses() {
     });
   } else {
     allCourseDataWithStatus = allCourseData.map((allItem) => {
-      const isMyCourse = MyCourseData.some(
+      const isMyCourse = boughtItems.some(
         (myItem) => myItem.courseId === allItem.id
       );
       return {

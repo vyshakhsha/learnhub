@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -19,7 +19,7 @@ export default function Checkout() {
   const totalAmount = cartData.reduce((acc, item) => acc + item.price, 0);
 
   const handleClick =async () => {
-    await Promise.all(cartData.map((item) => dispatch(checkoutCart(item.itemId))));
+    await Promise.all(cartData.map((item) => dispatch(checkoutCart(item.id))));
     await dispatch(fetchCartItems(userid));
   };
 

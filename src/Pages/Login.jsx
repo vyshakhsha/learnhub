@@ -9,12 +9,14 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { toast, ToastContainer } from "react-toastify";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../Components/Firebase";
 import {  useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { setUserData } from "../Redux/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const navigate=useNavigate()
+  const loginURL=process.env.REACT_APP_LOGIN_USER;
   const [showPassword, setShowPassword] = React.useState(false);
   const [formValues, setFormValues] = useState({
     email: "",
@@ -22,7 +24,7 @@ export default function Login() {
   });
   const [buttonState, setButtonState] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  const dispatch = useDispatch();
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -53,20 +55,33 @@ export default function Login() {
       toast.error("Invalid Email address", { position: "top-center" });
       return;
     }
-    try {
-      await signInWithEmailAndPassword(
-        auth,
-        formValues.email,
-        formValues.password
-      );
-      toast.success("User logged in successfully !", {
-        position: "top-center",
+    try { 
+      const response = await axios.post(loginURL, {
+        email: formValues.email,
+        password: formValues.password,
       });
+      if(response.data.message === "Login successful"){
+        toast.success("User logged in successfully !", {
+        position: "top-center",       
+      });
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userData", JSON.stringify(response.data.user));
+      const user= response.data.user;
+      dispatch(setUserData({
+        userId: user.id,
+        userName: user.username,
+        email: user.email,
+        userType: user.usertype
+      }));
       setFormValues({
         email: "",
         password: ""
       });
-      window.location.href="/Home"
+      navigate("/Home");
+      }
+      else{
+        toast.error("Invalid credentials", { position: "top-center" });     
+      }
     } catch (error) {
       console.log(error);
       toast.error("Error while login", { position: "top-center" });

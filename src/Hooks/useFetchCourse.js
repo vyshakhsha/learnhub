@@ -7,10 +7,10 @@ const [courseData, setCourseData] = useState(null);
 useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await axios.get(`${apiURL}${courseId}`);
+        const response = await axios.get(`${apiURL}/${courseId}`);
         setCourseData(response.data);
       } catch (error) {
-        console.log(`Fetching from URL: ${apiURL}${courseId}`);
+        console.log(`Fetching from URL: ${apiURL}/${courseId}`);
         console.log(error);
       }
     };

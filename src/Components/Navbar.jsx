@@ -15,14 +15,12 @@ import LocalLibrary from "@mui/icons-material/LocalLibrary";
 import { useSelector } from "react-redux";
 import CartIcon from "./CartIcon";
 import { useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
-import {persistor} from "../Redux/Store"
+import { persistor } from "../Redux/Store";
+import axios from "axios";
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  // const auth = useSelector((state) => state.user.auth);
-  const auth = getAuth();
   const navigate = useNavigate();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -46,11 +44,25 @@ function NavBar() {
   };
   const handleLogout = async () => {
     try {
-      console.log("I have clicked");
-      await auth.signOut();
-      console.log("User logout susccessfully !");
-      persistor.purge()
-      window.location.href = "/Login";
+      const token = localStorage.getItem("token");
+      const logoutURL = process.env.REACT_APP_LOGOUT_USER;
+      const response = await axios.post(
+        logoutURL,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.message === "Logout successful") {
+        console.log("Logout successful");
+      } else {
+        console.log("Logout failed");
+      }
+      localStorage.clear();
+      persistor.purge();
+      navigate("/Login");
     } catch (error) {
       console.log(error);
     }
